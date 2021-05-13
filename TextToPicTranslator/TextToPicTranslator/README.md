@@ -35,7 +35,7 @@ https://github.com/rdalby/TextToPicTranslator
 
 *Sidenote project name is reversed due to some issues with having to recreate the entire project after a file was corrupted and could not use the same name.
 
-
+## need to config subscript keys in translator.cs and ocr.cs ##
 
 ## Basic how to run instructions ##
 
@@ -72,6 +72,7 @@ You need to save the program in a shorter file path. The issue is that the filep
 Try saving in C:\Source\TextToPicTranslator for instance instead of where you currently have it saved. Then reopen and build the project
 the error should be gone by that point.
 
+May need to install Java/js part in the VS if error
 
 # what you need to if creating your own - High Level #
 Visual Studio 2019 - community edition is fine also had EDU versions that will work
