@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TextToPicTranslator.Views.AboutPage"
+             xmlns:vm="clr-namespace:TextToPicTranslator.ViewModels"
+             Title="{Binding Title}">
+    
+    <ContentPage.BindingContext>
+        <vm:AboutViewModel />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#004d4d</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                <ContentView Padding="0,20,0,20" VerticalOptions="FillAndExpand">
+                    <Label FontSize="{x:OnPlatform UWP=Header, iOS=Title, Android=Title}" Text="How to Use" FontAttributes="Bold" TextColor="White"/>
+                    <!--<Image Source="xamarin_logo.png" VerticalOptions="Center" HeightRequest="64" />-->
+                </ContentView>
+            </StackLayout>
+        </StackLayout>
+        <ScrollView Grid.Row="1">
+            <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10" BackgroundColor="Teal">
+                <Label Text="Sidebar Menu Options" FontAttributes="Bold" TextColor="White" TextDecorations="Underline" FontSize="Subtitle"/>
+                <StackLayout TranslationY="5">
+                    <Label TextColor="White" 
+                        Text="OCR" TextDecorations="Underline"
+                        FontSize="16" Padding="0,0,0,0"/>
+                    <Label TranslationX="5" TextColor="White" 
+                        Text="&#x2022; This pulls the text out of an image"
+                        FontSize="16" Padding="0,0,0,0"/>
+                    <Label TranslationX="5" TextColor="White" 
+                        Text="&#x2022; Option to take a photo with your device's camera"
+                        FontSize="16" Padding="0,0,0,0"/>
+                    <Label TranslationX="5" TextColor="White" 
+                        Text="&#x2022; Option to select photo from device's storage"
+                        FontSize="16" Padding="0,0,0,0"/>
+                    <Label TranslationX="5" TextColor="White" 
+                        Text="&#x2022; Once text is pulled from photo can use the 'copy' button to copy to device's clipboard"
+                        FontSize="16" Padding="0,0,0,0"/>
+                </StackLayout>
+
+                <StackLayout TranslationY="10">
+                    <Label TextColor="White" 
+                       Text="Translate" TextDecorations="Underline"
+                       FontSize="16" Padding="0,0,0,0"/>
+                    <Label TranslationX="5" TextColor="White" 
+                        Text="&#x2022; Input text to be translated in the top text field"
+                        FontSize="16" Padding="0,0,0,0"/>
+                    <Label TranslationX="5" TextColor="White" 
+                        Text="&#x2022; The 'From' language can be left as 'Detect' if unknown"
+                        FontSize="16" Padding="0,0,0,0"/>
+                    <Label TranslationX="5" TextColor="White" 
+                        Text="&#x2022; Must select a designated 'To' language"
+                        FontSize="16" Padding="0,0,0,0"/>
+                    <Label TranslationX="5" TextColor="White" 
+                        Text="&#x2022; Transliterate text will also show below translation and original input text if available"
+                        FontSize="16" Padding="0,0,0,0"/>
+                    <Label TranslationX="5" TextColor="White" 
+                        Text="&#x2022; Some languages will only have a translitate option 'one' way not in the reverse"
+                        FontSize="16" Padding="0,0,0,0"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

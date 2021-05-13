@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TextToPicTranslator.Views.TranslatePage"
+             xmlns:s="clr-namespace:TextToPicTranslator.Services"
+             xmlns:v="clr-namespace:TextToPicTranslator.ViewModels"
+             xmlns:m="clr-namespace:TextToPicTranslator.Models" 
+             Title="{Binding Title}">
+    <!--<ContentPage.BindingContext>
+        <v:TranslateViewModel />
+    </ContentPage.BindingContext> -->
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#004d4d</Color>
+            <Color x:Key="Accent2">#004d4d</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <RefreshView Command="{Binding LoadLanguagesCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                        <ContentView Padding="0,30,0,30" VerticalOptions="FillAndExpand">
+                                <Label x:Name="Tlabel" TextColor="White" Text="{Binding Title}" 
+                                       HorizontalOptions="FillAndExpand"  VerticalOptions="Start"  
+                                       FontSize="{x:OnPlatform UWP=Header, iOS=Title, Android=Title}" FontAttributes="Bold"/>
+                        </ContentView>
+                    </StackLayout>
+                </StackLayout>
+
+                <ScrollView Grid.Row="1" BackgroundColor="Teal">
+
+                    <StackLayout Padding="30,24,30,24">
+
+                        <StackLayout>
+                            <StackLayout Orientation="Vertical">
+                                <Label/>
+                                <Frame Padding="0" CornerRadius="5" BorderColor="Black">
+                                    <Editor x:Name="TextToTranslates" HorizontalOptions="FillAndExpand" 
+                                         TextColor="#004d4d"
+                                        Placeholder="Enter Text To Translate Here" Text="{Binding TextToTranslate, Mode=TwoWay}" 
+                                        VerticalOptions="StartAndExpand"  FontSize="14" TabIndex="1" 
+                                        AutoSize="TextChanges">
+                                    </Editor>
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout Orientation="Vertical">
+                                
+                                <Picker x:Name="FromLanguageComboBox" Title="Select Language To Translate From" 
+                                    ItemsSource="{Binding Languages}" TitleColor="White"
+                                    HorizontalOptions="CenterAndExpand" ItemDisplayBinding="{Binding Lang}"
+                                    VerticalOptions="Start" FontSize="14" TabIndex="2" 
+                                        SelectedItem="{Binding FromLanguageSelected}">
+                                    <Picker.SelectedIndex>0</Picker.SelectedIndex>
+                                </Picker>
+
+                                <Picker x:Name="ToLanguageComboBox" Title="Select Language To Translate To" 
+                                    HorizontalOptions="CenterAndExpand" 
+                                    VerticalOptions="Start" TitleColor="White"
+                                    FontSize="14" TabIndex="3" ItemsSource="{Binding Languages}" 
+                                    ItemDisplayBinding="{Binding Lang}"
+                                    SelectedItem="{Binding ToLanguageSelected}">
+                                    <Picker.SelectedIndex>20</Picker.SelectedIndex>
+                                </Picker>
+                               
+                                <Frame Padding="0,0, 0, 0" HorizontalOptions="Center" OutlineColor="#004d4d" HasShadow="true">
+                                    <Button BackgroundColor="#004d4d" Padding="50,5, 50, 5" x:Name="TranslateButton" Text="Translate" 
+                                        HorizontalOptions="CenterAndExpand" VerticalOptions="Start" FontSize="14" TabIndex="4"
+                                        Command="{Binding TranslateCommand}" CornerRadius="5"/>
+                                </Frame>
+                            </StackLayout>
+                            <Grid TranslationY="5" Padding="30,24,30,24" IsVisible="{Binding TVisible}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=.2, Constant=20}" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label TranslationX="-10" TextColor="White" Grid.Column ="0" Grid.Row ="0" x:Name="TranslateLabel" Text="Original Text:"  
+                                       HorizontalOptions="FillAndExpand" VerticalOptions="Start" FontSize="16"/>
+                                <Frame TranslationX="-10" Grid.Column ="0" Grid.Row="1" Padding="5, 5, 5, 5" OutlineColor="#004d4d" BackgroundColor="#004d4d" HasShadow="true">
+                                    <Label TextColor="White" Grid.Column ="0" Grid.Row ="1" x:Name="TextToTranslateLabel" Text="{Binding TextToTranslate}"  HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
+                                </Frame>
+                                <StackLayout TranslationX="-10" Orientation="Vertical" Grid.Column="0" Grid.Row="2">
+                                    <Label TextColor="White" Grid.Column ="0" Grid.Row ="2" x:Name="TransliteraitedTextDLabel"
+                                           Text="Original Transliterated Text:" HorizontalOptions="FillAndExpand"  VerticalOptions="Start" FontSize="12"/>
+                                    <Frame Grid.Column ="1" Grid.Row="3" Padding="5, 5, 5, 5" OutlineColor="#004d4d" BackgroundColor="#004d4d" HasShadow="true">
+                                        <Label TextColor="White" Grid.Column ="0" Grid.Row ="2" x:Name="TransliteraitedTextLabel" FontSize="Caption"
+                                               Text="{Binding TransliteratedText}" HorizontalOptions="FillAndExpand"  VerticalOptions="Start"/>
+                                    </Frame>
+                                </StackLayout>
+                                <!--  <StackLayout Grid.Column ="0" Grid.Row ="3" Orientation="Horizontal">
+                                    <Label x:Name="ToScriptLabel" Text="{Binding ToScript}" HorizontalOptions="FillAndExpand"  VerticalOptions="Start"/>
+                                    <Label x:Name="DetectedLanguageLabel" Text="{Binding DetectedLanguage}" HorizontalOptions="FillAndExpand"  VerticalOptions="Start"/>
+                                    </StackLayout> -->
+                                <Label TranslationX="10" TextColor="White" Grid.Column ="1" Grid.Row ="0" x:Name="TranslateTextLabel" 
+                                       Text="Translated Text:"  HorizontalOptions="FillAndExpand" FontSize="16" VerticalOptions="Start"/>
+                                <Frame TranslationX="10" Grid.Column ="1" Grid.Row="1" Padding="5, 5, 5, 5" OutlineColor="#004d4d" BackgroundColor="#004d4d" HasShadow="true">
+                                    <Label TextColor="White" Grid.Column ="1" Grid.Row ="1" x:Name="TranslatedTextLabel" Text="{Binding TranslatedText}"  HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
+                                </Frame>
+                                <StackLayout TranslationX="10" Orientation="Vertical" Grid.Column="1" Grid.Row="2">
+                                    <Label TextColor="White" Grid.Column ="1" Grid.Row ="2" x:Name="TransliteraitedTextFDLabel" 
+                                           Text="Translated Transliterated Text:" HorizontalOptions="FillAndExpand"  VerticalOptions="Start" FontSize="12"/>
+                                    <Frame Grid.Column ="1" Grid.Row="3" Padding="5, 5, 5, 5" OutlineColor="#004d4d" BackgroundColor="#004d4d" HasShadow="true">
+                                        <Label TextColor="White" Grid.Column ="1" Grid.Row ="3" x:Name="TransliteraitedTextFLabel" FontSize="Caption" Text="{Binding TransliteratedTextF}" HorizontalOptions="FillAndExpand"  VerticalOptions="Start"/>
+                                    </Frame>
+                                </StackLayout>
+                        <!--<Label Grid.Column ="1" Grid.Row="3" x:Name="FromScriptLabel" Text="{Binding FromScript}" HorizontalOptions="FillAndExpand"  VerticalOptions="Start"/>
+                       -->  </Grid>
+                            
+                        </StackLayout>
+                    </StackLayout>
+                </ScrollView>
+                
+            </Grid>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>
+    

@@ -1,0 +1,1 @@
+C:\Users\rache\source\repos\TextToPicTranslator\TextToPicTranslator\TextToPicTranslator.UWP\TextToPicTranslator.UWP.csproj;x86

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TextToPicTranslator.Views.OCRPage"
+             xmlns:vm="clr-namespace:TextToPicTranslator.ViewModels"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#004d4d</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                <ContentView Padding="0,30,0,30" VerticalOptions="FillAndExpand">
+                    <Label x:Name="PTlabel" TextColor="White" Text="{Binding Title}" 
+                           HorizontalOptions="FillAndExpand" VerticalOptions="Start"  
+                           FontSize="{x:OnPlatform UWP=Header, iOS=Title, Android=Title}" FontAttributes="Bold"/>
+                </ContentView>
+            </StackLayout>
+        </StackLayout>
+        <ScrollView Grid.Row="1">
+            <StackLayout Orientation="Vertical" BackgroundColor="Teal">
+
+                <StackLayout TranslationY="10">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Frame Padding="0,0, 0, 0" HorizontalOptions="Center" OutlineColor="#004d4d" HasShadow="true">
+                            <Button Padding="50,5, 50, 5" CornerRadius="5" BackgroundColor="#004d4d" x:Name="TakePictureButton" Command="{Binding CameraCommand}"
+                                Text="Camera"/>
+                        </Frame>
+                        <Frame Padding="0,0, 0, 0" HorizontalOptions="Center" OutlineColor="#004d4d" HasShadow="true">
+                            <Button Padding="50,5, 50, 5" CornerRadius="5" BackgroundColor="#004d4d" x:Name="UploadPictureButton" Command="{Binding PickCommand}"
+                                Text="Pick a photo"/>
+                        </Frame>
+                    </StackLayout>
+                    <ActivityIndicator x:Name="Indicator1" IsVisible="{Binding InVisible}" IsRunning="{Binding InRunning}" />
+                    <Image x:Name="Image1" HeightRequest="240" Source="{Binding ImageSource}"/>
+                </StackLayout>
+                <StackLayout TranslationY="10" Orientation="Vertical" Padding="5">
+
+                    <Label TextColor="White" FontSize="Subtitle" Text="Result: "/>
+                    <Frame HasShadow="True" BackgroundColor="#004d4d" BorderColor="#004d4d">
+                        <Label  TextColor="White" x:Name="ResultLabel" Text="{Binding ResultT}" />
+                    </Frame>
+                    <Frame Padding="0,0, 0, 0" HorizontalOptions="Center" OutlineColor="#004d4d" HasShadow="true">
+                        <Button  Padding="50,5, 50, 5" BackgroundColor="#004d4d" x:Name="ClipboardButton" 
+                                 Clicked="ClipboardButton_Clicked"
+                            CornerRadius="5" Text="Copy"/>
+                    </Frame>
+                </StackLayout>
+                <Button TranslationY="10" HorizontalOptions="Center" IsVisible="false" CornerRadius="5" BackgroundColor="#004d4d" x:Name="TranslateButton" Command="{Binding TranslateCommand}"
+                    Text="Translate Text" />
+                <Label x:Name="spacer" TranslationY="20"/>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
+
